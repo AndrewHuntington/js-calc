@@ -18,15 +18,19 @@ function operate(func, a, b) {
   return func(a, b);
 }
 
-const numDisplay = document.getElementById('display-numbers');
+const displayVal = document.getElementById('number-display');
 
-const btn = document.querySelector('#one');
-btn.addEventListener('click', (e) => {
-  console.log(e.explicitOriginalTarget.innerText);
-  numDisplay.innerText = e.explicitOriginalTarget.innerText;
+const numBtns = document.querySelectorAll('#number-btns > button');
+numBtns.forEach((numBtn) => {
+  numBtn.addEventListener('click', (e) => {
+    displayVal.innerText = e.explicitOriginalTarget.innerText;
+  });
 });
 
-const btn2 = document.querySelector('#two');
-btn2.addEventListener('click', (e) => {
-  console.log(e.explicitOriginalTarget.innerText);
-});
+
+
+//
+// const btn2 = document.querySelector('#two');
+// btn2.addEventListener('click', (e) => {
+//   console.log(e.explicitOriginalTarget.innerText);
+// });
