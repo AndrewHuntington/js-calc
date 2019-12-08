@@ -1,33 +1,13 @@
-function add(a, b) {
-  return a + b;
-}
-
-function subtract(a, b) {
-  return a - b;
-}
-
-function divide(a, b) {
-  return a / b;
-}
-
-function multiply(a, b) {
-  return a * b;
-}
-
-function operate(func, a, b) {
-  return func(a, b);
-}
-
 const numDisplay = document.getElementById('number-display');
 numDisplay.innerText = "0";
 let displayVal;
-let displayLockOn = true;
+let displayLockOn = false;
 
 const numBtns = document.querySelectorAll('#number-btns > button');
 numBtns.forEach((numBtn) => {
   numBtn.addEventListener('click', (e) => {
     console.log(`Locked? Outside: ${displayLockOn}`); // REMOVE
-    if (numDisplay.innerText === "0" || !displayLockOn) {
+    if (!displayLockOn) {
       numDisplay.innerText = "";
       if (!displayLockOn) {
         displayLockOn = true;
@@ -53,27 +33,42 @@ opBtns.forEach((opBtn) => {
   opBtn.addEventListener('click', (e) => {
     console.log(e.target.id); // REMOVE
     if (e.target.id === "clear-all") {
+      displayLockOn = false;
 
       if (num1 || num2) {
         num1 = null;
         num2 = null;
+        func = null;
       }
 
       numDisplay.innerText = "0";
 
     } else if (e.target.id === "equals") {
 
-        if (!num2 && !func) {
+        if ((num2 === undefined || num2 === null) && !func) {
           return; // should ignore equal btn press
         } else if (num2 == undefined){
           num2 = displayVal;
         }
+        // protects againstt divide by 0
+        if (func === divide && num2 === 0) {
+          num1 = null;
+          num2 = null;
+          func = null;
 
-        if (func && num1 && num2) {
+          numDisplay.innerText = "Whoops! Try again Charlie!";
+          displayLockOn = false;
+
+        // protects against 0 being counted as false  
+      } else if ((func && num1 && num2) || (func && num1 === 0 && num2) ||
+            (func && num1 && num2 == 0)) {
+
           numDisplay.innerText = operate(func, num1, num2);
-        } else {
-          return;
-        }
+          console.log(operate(func, num1, num2));
+
+      } else {
+        return;
+      }
 
     } else {
 
@@ -82,10 +77,6 @@ opBtns.forEach((opBtn) => {
         num1 = displayVal;
         displayLockOn = false;
       }
-
-      // if (!displayLockOn) {
-      //   displayLockOn = true;
-      // }
 
       switch (e.target.id) {
         case "add":
@@ -109,9 +100,23 @@ opBtns.forEach((opBtn) => {
   })
 });
 
+// math town
+function add(a, b) {
+  return a + b;
+}
 
-//
-// const btn2 = document.querySelector('#two');
-// btn2.addEventListener('click', (e) => {
-//   console.log(e.explicitOriginalTarget.innerText);
-// });
+function subtract(a, b) {
+  return a - b;
+}
+
+function divide(a, b) {
+  return a / b;
+}
+
+function multiply(a, b) {
+  return a * b;
+}
+
+function operate(func, a, b) {
+  return func(a, b);
+}
