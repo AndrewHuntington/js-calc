@@ -13,8 +13,11 @@ numBtns.forEach((numBtn) => {
       }
     }
 
-    numDisplay.innerText += e.explicitOriginalTarget.innerText;
-    displayVal = +numDisplay.innerText;
+    if (numDisplay.innerText.length < 16) {
+      numDisplay.innerText += e.explicitOriginalTarget.innerText;
+      displayVal = +numDisplay.innerText;
+      console.log(numDisplay.innerText.length);
+    }
   });
 });
 
@@ -41,9 +44,7 @@ opBtns.forEach((opBtn) => {
       numDisplay.innerText = "0";
 
     } else if (e.target.id === "equals") {
-
         keepRunningTotal();
-
     } else {
 
       if (!num1) {
@@ -51,7 +52,6 @@ opBtns.forEach((opBtn) => {
         displayLockOn = false;
       } else {
         keepRunningTotal();
-        displayLockOn = false;
       }
 
       switch (e.target.id) {
@@ -102,7 +102,7 @@ function keepRunningTotal() {
     return; // should ignore equal btn press
   } else if (num2 == undefined || num2 == null){
     num2 = displayVal;
-    displayVal = null; // protects against outputing wierd numbers if the user keeps clicking an operator key without entering a new value 
+    displayVal = null; // protects against outputing wierd numbers if the user keeps clicking an operator key without entering a new value
   }
   // protects againstt divide by 0
   if (func === divide && num2 === 0) {
@@ -111,7 +111,7 @@ function keepRunningTotal() {
     func = null;
 
     numDisplay.innerText = "Whoops! Try again Charlie!";
-    displayLockOn = false;
+    // displayLockOn = false;
 
   // protects against 0 being counted as false
   } else if ((func && num1 && num2) || (func && num1 === 0 && num2) ||
@@ -124,4 +124,5 @@ function keepRunningTotal() {
   } else {
     return;
   }
+  displayLockOn = false;
 }
