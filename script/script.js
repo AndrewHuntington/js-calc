@@ -2,21 +2,28 @@ const numDisplay = document.getElementById('number-display');
 numDisplay.innerText = "0";
 let displayVal;
 let displayLockOn = false;
+let decimal = false;
 
 const numBtns = document.querySelectorAll('#number-btns > button');
 numBtns.forEach((numBtn) => {
   numBtn.addEventListener('click', (e) => {
     if (!displayLockOn) {
       numDisplay.innerText = "";
-      if (!displayLockOn) {
-        displayLockOn = true;
-      }
+      displayLockOn = true;
     }
 
     if (numDisplay.innerText.length < 16) {
-      numDisplay.innerText += e.explicitOriginalTarget.innerText;
-      displayVal = +numDisplay.innerText;
-      console.log(numDisplay.innerText.length);
+      if (e.target.id === "dot" && decimal) {
+        return; // prevents multiple decimals
+      } else if (e.target.id === "dot"){
+        numDisplay.innerText += e.explicitOriginalTarget.innerText;
+        displayVal = +numDisplay.innerText;
+        decimal = "true"; // allows for one decimal per value
+      } else {
+        numDisplay.innerText += e.explicitOriginalTarget.innerText;
+        displayVal = +numDisplay.innerText;
+      }
+
     }
   });
 });
@@ -31,6 +38,7 @@ let func;
 
 opBtns.forEach((opBtn) => {
   opBtn.addEventListener('click', (e) => {
+    decimal = false; // allows decimal values again
 
     if (e.target.id === "clear-all") {
       displayLockOn = false;
