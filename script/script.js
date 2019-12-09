@@ -6,18 +6,15 @@ let displayLockOn = false;
 const numBtns = document.querySelectorAll('#number-btns > button');
 numBtns.forEach((numBtn) => {
   numBtn.addEventListener('click', (e) => {
-    console.log(`Locked? Outside: ${displayLockOn}`); // REMOVE
     if (!displayLockOn) {
       numDisplay.innerText = "";
       if (!displayLockOn) {
         displayLockOn = true;
       }
-      console.log(`Locked? Inside: ${displayLockOn}`); // REMOVE
     }
 
     numDisplay.innerText += e.explicitOriginalTarget.innerText;
     displayVal = +numDisplay.innerText;
-    console.log(displayVal); // for debugging TODO: REMOVE
   });
 });
 
@@ -31,7 +28,7 @@ let func;
 
 opBtns.forEach((opBtn) => {
   opBtn.addEventListener('click', (e) => {
-    console.log(e.target.id); // REMOVE
+
     if (e.target.id === "clear-all") {
       displayLockOn = false;
 
@@ -45,36 +42,15 @@ opBtns.forEach((opBtn) => {
 
     } else if (e.target.id === "equals") {
 
-        if ((num2 === undefined || num2 === null) && !func) {
-          return; // should ignore equal btn press
-        } else if (num2 == undefined){
-          num2 = displayVal;
-        }
-        // protects againstt divide by 0
-        if (func === divide && num2 === 0) {
-          num1 = null;
-          num2 = null;
-          func = null;
-
-          numDisplay.innerText = "Whoops! Try again Charlie!";
-          displayLockOn = false;
-
-        // protects against 0 being counted as false  
-      } else if ((func && num1 && num2) || (func && num1 === 0 && num2) ||
-            (func && num1 && num2 == 0)) {
-
-          numDisplay.innerText = operate(func, num1, num2);
-          console.log(operate(func, num1, num2));
-
-      } else {
-        return;
-      }
+        keepRunningTotal();
 
     } else {
 
-      // TODO: set logic for more than two numbers
       if (!num1) {
         num1 = displayVal;
+        displayLockOn = false;
+      } else {
+        keepRunningTotal();
         displayLockOn = false;
       }
 
@@ -94,7 +70,7 @@ opBtns.forEach((opBtn) => {
         default:
           console.log("ERROR");
       }
-      console.log(func); // for debugging // TODO: REMOVE
+
     }
 
   })
@@ -119,4 +95,33 @@ function multiply(a, b) {
 
 function operate(func, a, b) {
   return func(a, b);
+}
+
+function keepRunningTotal() {
+  if ((num2 === undefined || num2 === null) && !func) {
+    return; // should ignore equal btn press
+  } else if (num2 == undefined || num2 == null){
+    num2 = displayVal;
+    displayVal = null; // protects against outputing wierd numbers if the user keeps clicking an operator key without entering a new value 
+  }
+  // protects againstt divide by 0
+  if (func === divide && num2 === 0) {
+    num1 = null;
+    num2 = null;
+    func = null;
+
+    numDisplay.innerText = "Whoops! Try again Charlie!";
+    displayLockOn = false;
+
+  // protects against 0 being counted as false
+  } else if ((func && num1 && num2) || (func && num1 === 0 && num2) ||
+        (func && num1 && num2 == 0)) {
+
+      numDisplay.innerText = operate(func, num1, num2);
+      num1 = operate(func, num1, num2);
+      num2 = null;
+
+  } else {
+    return;
+  }
 }
