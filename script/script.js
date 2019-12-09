@@ -3,6 +3,7 @@ numDisplay.innerText = "0";
 let displayVal;
 let displayLockOn = false;
 let decimal = false;
+let zeroLock = false;
 
 const numBtns = document.querySelectorAll('#number-btns > button');
 numBtns.forEach((numBtn) => {
@@ -13,6 +14,14 @@ numBtns.forEach((numBtn) => {
     }
 
     if (numDisplay.innerText.length < 16) {
+      // allows zero as an initial value while stopping multiple zero entry
+      if (e.target.id === "zero" && (displayVal === null || displayVal === undefined)) {
+        displayVal = "0";
+        zeroLock = true;
+      } else if (e.target.id === "zero" && displayVal === 0 && zeroLock && !decimal){
+        return;
+      }
+
       if (e.target.id === "dot" && decimal) {
         return; // prevents multiple decimals
       } else if (e.target.id === "dot"){
@@ -23,8 +32,7 @@ numBtns.forEach((numBtn) => {
         numDisplay.innerText += e.explicitOriginalTarget.innerText;
         displayVal = +numDisplay.innerText;
       }
-
-    }
+  }
   });
 });
 
@@ -42,6 +50,8 @@ opBtns.forEach((opBtn) => {
 
     if (e.target.id === "clear-all") {
       displayLockOn = false;
+      zeroLock = false;
+      displayVal = null;
 
       if (num1 || num2) {
         num1 = null;
@@ -125,7 +135,10 @@ function keepRunningTotal() {
   } else if ((func && num1 && num2) || (func && num1 === 0 && num2) ||
         (func && num1 && num2 == 0)) {
 
-      numDisplay.innerText = operate(func, num1, num2);
+      const result = operate(func, num1, num2);
+
+      numDisplay.innerText = +result.toFixed(10);
+
       num1 = operate(func, num1, num2);
       num2 = null;
 
