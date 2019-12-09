@@ -129,7 +129,6 @@ function keepRunningTotal() {
     func = null;
 
     numDisplay.innerText = "Whoops! Try again Charlie!";
-    // displayLockOn = false;
 
   // protects against 0 being counted as false
   } else if ((func && num1 && num2) || (func && num1 === 0 && num2) ||
