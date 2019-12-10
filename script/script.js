@@ -48,18 +48,33 @@ opBtns.forEach((opBtn) => {
   opBtn.addEventListener('click', (e) => {
     decimal = false; // allows decimal values again
 
-    if (e.target.id === "clear-all") {
-      displayLockOn = false;
-      zeroLock = false;
-      displayVal = null;
+    // backspace support
+    if (e.target.id === "backspace") {
+      const tempArr = numDisplay.innerText.split('')
+      tempArr.pop();
 
-      if (num1 || num2) {
-        num1 = null;
-        num2 = null;
-        func = null;
+      if (tempArr.length > 0) {
+        numDisplay.innerText = tempArr.join('');
+      } else {
+        numDisplay.innerText = "0";
       }
 
-      numDisplay.innerText = "0";
+      displayVal = +numDisplay.innerText;
+      console.log(`numDisplay.innerText: ${numDisplay.innerText}`);
+      console.log(`displayVal: ${displayVal}`);
+    } else if (e.target.id === "clear-all") {
+
+        displayLockOn = false;
+        zeroLock = false;
+        displayVal = null;
+
+        if (num1 || num2) {
+          num1 = null;
+          num2 = null;
+          func = null;
+        }
+
+        numDisplay.innerText = "0";
 
     } else if (e.target.id === "equals") {
         keepRunningTotal();
