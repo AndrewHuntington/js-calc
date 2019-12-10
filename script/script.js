@@ -50,6 +50,7 @@ opBtns.forEach((opBtn) => {
 
     // backspace support
     if (e.target.id === "backspace") {
+
       const tempArr = numDisplay.innerText.split('')
       tempArr.pop();
 
@@ -57,11 +58,11 @@ opBtns.forEach((opBtn) => {
         numDisplay.innerText = tempArr.join('');
       } else {
         numDisplay.innerText = "0";
+        zeroLock = false;
       }
 
       displayVal = +numDisplay.innerText;
-      console.log(`numDisplay.innerText: ${numDisplay.innerText}`);
-      console.log(`displayVal: ${displayVal}`);
+
     } else if (e.target.id === "clear-all") {
 
         displayLockOn = false;
@@ -77,7 +78,9 @@ opBtns.forEach((opBtn) => {
         numDisplay.innerText = "0";
 
     } else if (e.target.id === "equals") {
+
         keepRunningTotal();
+
     } else {
 
       if (!num1) {
