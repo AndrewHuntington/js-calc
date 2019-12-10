@@ -1,11 +1,22 @@
+
+// INITIALIZATION VARIABLES ***************************
 const numDisplay = document.getElementById('number-display');
 numDisplay.innerText = "0";
+
+const numBtns = document.querySelectorAll('#number-btns > button');
+const opBtns = document.querySelectorAll('#operators > button');
+
 let displayVal;
 let displayLockOn = false;
 let decimal = false;
 let zeroLock = false;
+// operands
+let num1;
+let num2;
+// operator function
+let func;
 
-const numBtns = document.querySelectorAll('#number-btns > button');
+// NUMPAD AND DISPLAY LOGIC ***************************
 numBtns.forEach((numBtn) => {
   numBtn.addEventListener('click', (e) => {
     if (!displayLockOn) {
@@ -36,14 +47,7 @@ numBtns.forEach((numBtn) => {
   });
 });
 
-const opBtns = document.querySelectorAll('#operators > button');
-// operands
-let num1;
-let num2;
-// operator function
-let func;
-
-
+// OPERATOR LOGIC ***************************
 opBtns.forEach((opBtn) => {
   opBtn.addEventListener('click', (e) => {
     decimal = false; // allows decimal values again
@@ -58,7 +62,7 @@ opBtns.forEach((opBtn) => {
         numDisplay.innerText = tempArr.join('');
       } else {
         numDisplay.innerText = "0";
-        zeroLock = false;
+        displayLockOn = false;
       }
 
       displayVal = +numDisplay.innerText;
@@ -112,7 +116,7 @@ opBtns.forEach((opBtn) => {
   })
 });
 
-// math town
+// MATH LOGIC ***************************
 function add(a, b) {
   return a + b;
 }
