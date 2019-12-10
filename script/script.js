@@ -16,36 +16,50 @@ let num2;
 // operator function
 let func;
 
-// NUMPAD AND DISPLAY LOGIC ***************************
+// CLICK INPUT LOGIC ***************************
+// I can't seem to figure out how to handle both click and keyboard input at the same time w/o spliting up the code for each
 numBtns.forEach((numBtn) => {
   numBtn.addEventListener('click', (e) => {
-    if (!displayLockOn) {
-      numDisplay.innerText = "";
-      displayLockOn = true;
-    }
-
-    if (numDisplay.innerText.length < 16) {
-      // allows zero as an initial value while stopping multiple zero entry
-      if (e.target.id === "zero" && (displayVal === null || displayVal === undefined)) {
-        displayVal = "0";
-        zeroLock = true;
-      } else if (e.target.id === "zero" && displayVal === 0 && zeroLock && !decimal){
-        return;
-      }
-
-      if (e.target.id === "dot" && decimal) {
-        return; // prevents multiple decimals
-      } else if (e.target.id === "dot"){
-        numDisplay.innerText += e.explicitOriginalTarget.innerText;
-        displayVal = +numDisplay.innerText;
-        decimal = "true"; // allows for one decimal per value
-      } else {
-        numDisplay.innerText += e.explicitOriginalTarget.innerText;
-        displayVal = +numDisplay.innerText;
-      }
-  }
+      clickDataInput(e);
   });
 });
+
+function clickDataInput(e) {
+  if (!displayLockOn) {
+    numDisplay.innerText = "";
+    displayLockOn = true;
+  }
+
+  if (numDisplay.innerText.length < 16) {
+    // allows zero as an initial value while stopping multiple zero entry
+    if (e.target.id === "zero" && (displayVal === null || displayVal === undefined)) {
+      displayVal = "0";
+      zeroLock = true;
+    } else if (e.target.id === "zero" && displayVal === 0 && zeroLock && !decimal){
+      return;
+    }
+
+    if (e.target.id === "dot" && decimal) {
+      return; // prevents multiple decimals
+    } else if (e.target.id === "dot"){
+      numDisplay.innerText += e.explicitOriginalTarget.innerText;
+      displayVal = +numDisplay.innerText;
+      decimal = "true"; // allows for one decimal per value
+    } else {
+      numDisplay.innerText += e.explicitOriginalTarget.innerText;
+      displayVal = +numDisplay.innerText;
+    }
+  }
+};
+
+// KEYBOARD INPUT LOGIC ***************************
+
+//// TODO: find out how to key the keys to act like the buttons
+window.addEventListener('keydown', (e) => {
+  numDisplay.innerText += e.key;
+  displayVal = +numDisplay.innerText;
+});
+
 
 // OPERATOR LOGIC ***************************
 opBtns.forEach((opBtn) => {
@@ -55,7 +69,7 @@ opBtns.forEach((opBtn) => {
     // backspace support
     if (e.target.id === "backspace") {
 
-      const tempArr = numDisplay.innerText.split('')
+      const tempArr = numDisplay.innerText.split('');
       tempArr.pop();
 
       if (tempArr.length > 0) {
@@ -144,7 +158,7 @@ function keepRunningTotal() {
     num2 = displayVal;
     displayVal = null; // protects against outputing wierd numbers if the user keeps clicking an operator key without entering a new value
   }
-  // protects againstt divide by 0
+  // protects against divide by 0
   if (func === divide && num2 === 0) {
     num1 = null;
     num2 = null;
@@ -158,7 +172,7 @@ function keepRunningTotal() {
 
       const result = operate(func, num1, num2);
 
-      numDisplay.innerText = +result.toFixed(10);
+      numDisplay.innerText = +result.toFixed(16);
 
       num1 = operate(func, num1, num2);
       num2 = null;
