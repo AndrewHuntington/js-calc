@@ -33,6 +33,7 @@ function clickDataInput(e) {
   if (numDisplay.innerText.length < 16) {
     // allows zero as an initial value while stopping multiple zero entry
     if (e.target.id === "zero" && (displayVal === null || displayVal === undefined)) {
+      numDisplay.innerText = "";
       displayVal = "0";
       zeroLock = true;
     } else if (e.target.id === "zero" && displayVal === 0 && zeroLock && !decimal){
@@ -54,10 +55,40 @@ function clickDataInput(e) {
 
 // KEYBOARD INPUT LOGIC ***************************
 
-//// TODO: find out how to key the keys to act like the buttons
+// TODO: build keyboard input logic
 window.addEventListener('keydown', (e) => {
-  numDisplay.innerText += e.key;
-  displayVal = +numDisplay.innerText;
+  if (!displayLockOn) {
+    numDisplay.innerText = "";
+    displayLockOn = true;
+  }
+
+  if (numDisplay.innerText.length < 16) {
+    // allows zero as an initial value while stopping multiple zero entry
+    if (e.keyCode === 48 && (displayVal === null || displayVal === undefined)) {
+      numDisplay.innerText = "";
+      displayVal = "0";
+      zeroLock = true;
+    } else if (e.keyCode === 48 && displayVal === 0 && zeroLock && !decimal){
+      return;
+    }
+
+    if (e.keyCode === 190 && decimal) {
+      return; // prevents multiple decimals
+    } else if (e.keyCode === 190){
+      numDisplay.innerText += e.key;
+      displayVal = +numDisplay.innerText;
+      decimal = "true"; // allows for one decimal per value
+    } else if ((e.keyCode >= 48 && e.keyCode <= 57) ||
+          (e.keyCode >= 96 && e.keyCode <= 105)) {
+      numDisplay.innerText += e.key;
+      displayVal = +numDisplay.innerText;
+    }
+  }
+
+  // keyCodes: (48-57 alphanum keys) (96-105: numpad)
+
+
+
 });
 
 
