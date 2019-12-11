@@ -63,13 +63,25 @@ function clickDataInput(e) {
 // KEYBOARD INPUT LOGIC ***************************
 // Lots of duplicate code here. I'm sure there is a way to DRY this up, but I can't seem to get data from the clicks and keypresses to match
 window.addEventListener('keydown', (e) => {
+  // guard against unwanted keystrokes
+  if (!((e.keyCode >= 48 && e.keyCode <= 57) || (e.keyCode >= 96 && e.keyCode <= 105)) && (e.key !== "." &&
+    e.key !== "Backspace" && e.key !== "Delete" && e.key !== "=" &&
+    e.key !== "Enter" && e.key !== "+" && e.key !== "-" && e.key !== "*" &&
+    e.key !== "/")) {
+    return;
+  }
+
+  // for some reason, the keyboard requires this mess for it to work like buttons
   if(!displayLockOn && e.key === ".") {
     numDisplay.innerText = "0";
     displayVal = +numDisplay.innerText;
     displayLockOn = true;
   } else if (!displayLockOn && e.key === "0") {
     numDisplay.innerText = "";
-  } else if (!displayLockOn) {
+  } else if (!displayLockOn && (e.key === "Enter" || e.key === "=")){
+    return;
+  } else if (!displayLockOn &&
+      (e.key !== "+" && e.key !== "-" && e.key !== "*" && e.key !== "/")) {
     numDisplay.innerText = "";
     displayLockOn = true;
   }
@@ -94,15 +106,81 @@ window.addEventListener('keydown', (e) => {
           (e.keyCode >= 96 && e.keyCode <= 105)) {
       numDisplay.innerText += e.key;
       displayVal = +numDisplay.innerText;
+    } else if (e.key === "Backspace") {
+      // KEYBOARD OPERATOR LOGIC ***************************
+      // A lot of reused spaghetti code here. Needs DRYing and refacotring.
+        // backspace support
+      const tempArr = numDisplay.innerText.split('');
+
+      let popVal = tempArr.pop();
+      if (popVal === ".") {
+        decimal = false;
+      }
+
+      if (tempArr.length > 0) {
+        numDisplay.innerText = tempArr.join('');
+      } else {
+        numDisplay.innerText = "0";
+        displayLockOn = false;
+      }
+
+      displayVal = +numDisplay.innerText;
+
+    } else if (e.key === "Delete") {
+
+        decimal = false;
+        displayLockOn = false;
+        zeroLock = false;
+        displayVal = null;
+
+        if (num1 || num2) {
+          num1 = null;
+          num2 = null;
+          func = null;
+        }
+
+        numDisplay.innerText = "0";
+
+    } else if (e.key === "=" || e.key === "Enter") { // HERE!!!!!
+
+        decimal = false;
+        keepRunningTotal();
+
+    } else {
+
+      decimal = false;
+
+      if (!num1) {
+        num1 = displayVal;
+        displayLockOn = false;
+      } else {
+        keepRunningTotal();
+      }
+
+      switch (e.key) {
+        case "+":
+          func = add;
+          break;
+        case "-":
+          func = subtract;
+          break;
+        case "*":
+          func = multiply;
+          break;
+        case "/":
+          func = divide;
+          break;
+        default:
+          console.log("Key Error");
+      }
     }
   }
 });
 
 
-// OPERATOR LOGIC ***************************
+// BUTTON OPERATOR LOGIC ***************************
 opBtns.forEach((opBtn) => {
   opBtn.addEventListener('click', (e) => {
-
 
     // backspace support
     if (e.target.id === "backspace") {
@@ -138,7 +216,7 @@ opBtns.forEach((opBtn) => {
 
         numDisplay.innerText = "0";
 
-    } else if (e.target.id === "equals") {
+    } else if (e.target.id === "equals") { // HERE!!!!!
 
         decimal = false;
         keepRunningTotal();
@@ -175,8 +253,6 @@ opBtns.forEach((opBtn) => {
 
   })
 });
-
-// ***************** KEYS *****************
 
 // MATH LOGIC ***************************
 function add(a, b) {
