@@ -145,6 +145,8 @@ opBtns.forEach((opBtn) => {
 
     } else {
 
+      decimal = false;
+
       if (!num1) {
         num1 = displayVal;
         displayLockOn = false;
