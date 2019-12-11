@@ -25,6 +25,7 @@ numBtns.forEach((numBtn) => {
 });
 
 function clickDataInput(e) {
+  // keeps the number display from acting crazy upon user's first input
   if(!displayLockOn && e.target.id === "dot") {
     numDisplay.innerText = "0";
     displayVal = +numDisplay.innerText;
@@ -36,7 +37,7 @@ function clickDataInput(e) {
     displayLockOn = true;
   }
 
-  if (numDisplay.innerText.length < 16) {
+  if (numDisplay.innerText.length < 10) {
     // allows zero as an initial value while stopping multiple zero entry
     if (e.target.id === "zero" && (displayVal === null || displayVal === undefined)) {
       numDisplay.innerText = "";
@@ -60,41 +61,41 @@ function clickDataInput(e) {
 };
 
 // KEYBOARD INPUT LOGIC ***************************
-
-// TODO: build keyboard input logic
+// Lots of duplicate code here. I'm sure there is a way to DRY this up, but I can't seem to get data from the clicks and keypresses to match
 window.addEventListener('keydown', (e) => {
-  if (!displayLockOn) {
+  if(!displayLockOn && e.key === ".") {
+    numDisplay.innerText = "0";
+    displayVal = +numDisplay.innerText;
+    displayLockOn = true;
+  } else if (!displayLockOn && e.key === "0") {
+    numDisplay.innerText = "";
+  } else if (!displayLockOn) {
     numDisplay.innerText = "";
     displayLockOn = true;
   }
 
-  if (numDisplay.innerText.length < 16) {
+  if (numDisplay.innerText.length < 10) {
     // allows zero as an initial value while stopping multiple zero entry
-    if (e.keyCode === 48 && (displayVal === null || displayVal === undefined)) {
+    if (e.key === "0" && (displayVal === null || displayVal === undefined)) {
       numDisplay.innerText = "";
       displayVal = "0";
       zeroLock = true;
-    } else if (e.keyCode === 48 && displayVal === 0 && zeroLock && !decimal){
+    } else if (e.key === "0" && displayVal === 0 && zeroLock && !decimal){
       return;
     }
 
-    if (e.keyCode === 190 && decimal) {
+    if (e.key === "." && decimal) {
       return; // prevents multiple decimals
-    } else if (e.keyCode === 190){
+    } else if (e.key === "."){
       numDisplay.innerText += e.key;
       displayVal = +numDisplay.innerText;
-      decimal = "true"; // allows for one decimal per value
+      decimal = true; // allows for one decimal per value
     } else if ((e.keyCode >= 48 && e.keyCode <= 57) ||
           (e.keyCode >= 96 && e.keyCode <= 105)) {
       numDisplay.innerText += e.key;
       displayVal = +numDisplay.innerText;
     }
   }
-
-  // keyCodes: (48-57 alphanum keys) (96-105: numpad)
-
-
-
 });
 
 
@@ -209,7 +210,7 @@ function keepRunningTotal() {
 
       const result = operate(func, num1, num2);
 
-      numDisplay.innerText = +result.toFixed(16);
+      numDisplay.innerText = +result.toFixed(10);
 
       num1 = operate(func, num1, num2);
       num2 = null;
