@@ -25,7 +25,13 @@ numBtns.forEach((numBtn) => {
 });
 
 function clickDataInput(e) {
-  if (!displayLockOn) {
+  if(!displayLockOn && e.target.id === "dot") {
+    numDisplay.innerText = "0";
+    displayVal = +numDisplay.innerText;
+    displayLockOn = true;
+  } else if (!displayLockOn && e.target.id === "zero") {
+    numDisplay.innerText = "";
+  } else if (!displayLockOn) {
     numDisplay.innerText = "";
     displayLockOn = true;
   }
@@ -45,7 +51,7 @@ function clickDataInput(e) {
     } else if (e.target.id === "dot"){
       numDisplay.innerText += e.explicitOriginalTarget.innerText;
       displayVal = +numDisplay.innerText;
-      decimal = "true"; // allows for one decimal per value
+      decimal = true; // allows for one decimal per value
     } else {
       numDisplay.innerText += e.explicitOriginalTarget.innerText;
       displayVal = +numDisplay.innerText;
