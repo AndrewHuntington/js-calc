@@ -102,13 +102,17 @@ window.addEventListener('keydown', (e) => {
 // OPERATOR LOGIC ***************************
 opBtns.forEach((opBtn) => {
   opBtn.addEventListener('click', (e) => {
-    decimal = false; // allows decimal values again
+
 
     // backspace support
     if (e.target.id === "backspace") {
 
       const tempArr = numDisplay.innerText.split('');
-      tempArr.pop();
+
+      let popVal = tempArr.pop();
+      if (popVal === ".") {
+        decimal = false;
+      }
 
       if (tempArr.length > 0) {
         numDisplay.innerText = tempArr.join('');
@@ -121,6 +125,7 @@ opBtns.forEach((opBtn) => {
 
     } else if (e.target.id === "clear-all") {
 
+        decimal = false;
         displayLockOn = false;
         zeroLock = false;
         displayVal = null;
@@ -135,6 +140,7 @@ opBtns.forEach((opBtn) => {
 
     } else if (e.target.id === "equals") {
 
+        decimal = false;
         keepRunningTotal();
 
     } else {
@@ -167,6 +173,8 @@ opBtns.forEach((opBtn) => {
 
   })
 });
+
+// ***************** KEYS *****************
 
 // MATH LOGIC ***************************
 function add(a, b) {
