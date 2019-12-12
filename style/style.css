@@ -5,10 +5,10 @@ body {
 }
 
 #container {
-  height: 85vh;
+  height: 95vh;
   display: grid;
   grid-template-columns: auto 640px auto;
-  grid-template-rows: 10% 80% 10%;
+  grid-template-rows: 75px 655px 100px;
   grid-template-areas:
     ". header ."
     ". calc ."
@@ -36,7 +36,7 @@ header #title {
   background-color: rgba(214, 214, 214, 0.84);
   justify-self: center;
   display: grid;
-  grid-template-rows: 25% 10% 65%;
+  grid-template-rows: 164px 52px auto;
   grid-template-areas:
     "display"
     "name"
@@ -54,6 +54,11 @@ footer {
 footer .copyright {
   grid-area: copyright;
   justify-self: center;
+}
+
+#year {
+  display: flex;
+  justify-content: center;
 }
 
 #display-container {
@@ -88,10 +93,20 @@ footer .copyright {
   padding-left: 35px;
   margin-top: 0;
   grid-area: name;
+  word-spacing: -0.3rem;
+  color: rgb(66, 56, 184);
 }
 
 .chunky{
+  font-size: 1.1rem;
+  font-family: sans-serif;
+  letter-spacing: -0.1rem;
+}
 
+.gb {
+  font-family: 'Montserrat', sans-serif;
+  font-size: 1.5rem;
+  word-spacing: -0.1rem;
 }
 
 #btns {
@@ -101,13 +116,13 @@ footer .copyright {
 }
 
 #btns .operator {
-  background-color: red;
-  color: blue;
+  background-color: rgb(247, 70, 70);
+  color: rgb(75, 75, 236);
 }
 
 #btns .operand {
-  background-color: black;
-  color: blue;
+  background-color: rgb(63, 63, 68);
+  color: rgb(168, 168, 232);
 }
 
 button {
