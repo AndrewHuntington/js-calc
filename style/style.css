@@ -29,12 +29,16 @@ header #title {
 }
 
 #calc {
-  height: 85%;
+  height: 95%;
   width: 75%;
   grid-area: calc;
   background-color: rgba(139, 149, 141, 0.84);
   justify-self: center;
-
+  display: grid;
+  grid-template-areas:
+    "display"
+    "name"
+    "buttons";
 }
 
 footer {
@@ -51,6 +55,7 @@ footer .copyright {
 }
 
 #display-container {
+  grid-area: display;
   border: solid 2px black;
   padding: 30px;
   background-color: rgb(98, 98, 98);
@@ -64,8 +69,23 @@ footer .copyright {
   border: solid 1px yellow;
 }
 
-#number-btns {
+#name {
+  grid-area: name;
+}
 
+#btns {
+  grid-area: buttons;
+  justify-self: center;
+}
+
+#btns .operator {
+  background-color: red;
+  color: blue;
+}
+
+#btns .operand {
+  background-color: black;
+  color: blue;
 }
 
 button {
