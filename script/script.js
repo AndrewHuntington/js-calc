@@ -3,8 +3,8 @@
 const numDisplay = document.getElementById('number-display');
 numDisplay.innerText = "0";
 
-const numBtns = document.querySelectorAll('#number-btns > button');
-const opBtns = document.querySelectorAll('#operators > button');
+const numBtns = document.querySelectorAll('#btns > .row > .operand');
+const opBtns = document.querySelectorAll('#btns > .row > .operator');
 
 let displayVal;
 let displayLockOn = false;
@@ -71,7 +71,7 @@ window.addEventListener('keydown', (e) => {
     return;
   }
 
-  // for some reason, the keyboard requires this mess for it to work like buttons
+  // for some reason, the keyboard requires this mess for it to work like the buttons do
   if(!displayLockOn && e.key === ".") {
     numDisplay.innerText = "0";
     displayVal = +numDisplay.innerText;
@@ -109,7 +109,8 @@ window.addEventListener('keydown', (e) => {
     } else if (e.key === "Backspace") {
       // KEYBOARD OPERATOR LOGIC ***************************
       // A lot of reused spaghetti code here. Needs DRYing and refacotring.
-        // backspace support
+
+      // backspace support
       const tempArr = numDisplay.innerText.split('');
 
       let popVal = tempArr.pop();
@@ -141,7 +142,7 @@ window.addEventListener('keydown', (e) => {
 
         numDisplay.innerText = "0";
 
-    } else if (e.key === "=" || e.key === "Enter") { // HERE!!!!!
+    } else if (e.key === "=" || e.key === "Enter") {
 
         decimal = false;
         keepRunningTotal();
@@ -216,7 +217,7 @@ opBtns.forEach((opBtn) => {
 
         numDisplay.innerText = "0";
 
-    } else if (e.target.id === "equals") { // HERE!!!!!
+    } else if (e.target.id === "equals") {
 
         decimal = false;
         keepRunningTotal();

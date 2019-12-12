@@ -8,38 +8,51 @@
   <body>
 
     <div id="container">
-      <h1>Calculator</h1>
+      <header>
+        <h1 id="title">Calculator</h1>
+      </header>
+
       <div id="calc">
         <div id="display-container">
           <p id="number-display"></p>
         </div>
 
-        <div id="number-btns">
-          <button type="button">1</button>
-          <button type="button">2</button>
-          <button type="button">3</button>
-          <button type="button">4</button>
-          <button type="button">5</button>
-          <button type="button">6</button>
-          <button type="button">7</button>
-          <button type="button">8</button>
-          <button type="button">9</button>
-          <button type="button" id="zero">0</button>
-          <button type="button" id="dot">.</button>
+        <div id="btns">
+          <div class="row one">
+            <button type="button" class="operator" id="clear-all">C</button>
+            <button type="button" class="operator" id="backspace">B</button>
+            <button type="button" class="operator" id="add">+</button>
+          </div>
+          <div class="row two">
+            <button type="button" class="operand">1</button>
+            <button type="button" class="operand">2</button>
+            <button type="button" class="operand">3</button>
+            <button type="button" class="operator" id="subtract">-</button>
+          </div>
+          <div class="row three">
+            <button type="button" class="operand">4</button>
+            <button type="button" class="operand">5</button>
+            <button type="button" class="operand">6</button>
+            <button type="button" class="operator" id="multiply">x</button>
+          </div>
+          <div class="row four">
+            <button type="button" class="operand">7</button>
+            <button type="button" class="operand">8</button>
+            <button type="button" class="operand">9</button>
+            <button type="button" class="operator" id="divide">/</button>
+          </div>
+          <div class="row five">
+            <button type="button" class="operand" id="zero">0</button>
+            <button type="button" class="operand" id="dot">.</button>
+            <button type="button" class="operator" id="equals">=</button>
+          </div>
         </div>
-
-        <div id="operators">
-          <button type="button" id="clear-all">C</button>
-          <button type="button" id="backspace">B</button>
-          <button type="button" id="add">+</button>
-          <button type="button" id="subtract">-</button>
-          <button type="button" id="multiply">x</button>
-          <button type="button" id="divide">/</button>
-          <button type="button" id="equals">=</button>
-        </div>
-
 
       </div>
+
+      <footer>
+        <p class="copyright">Created by <a href="https://github.com/andrewhuntington" target="_blank">Andrew Huntington</a>. Fork or suggest edits on <a href="https://github.com/AndrewHuntington/js-calc">GitHub</a>.<br>&copy; 2019</p>
+      </footer>
     </div>
 
     <script type="text/javascript" src="./script/script.js"></script>

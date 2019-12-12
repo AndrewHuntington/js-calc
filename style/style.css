@@ -1,0 +1,79 @@
+body {
+  overflow-x: scroll;
+  overflow-y: scroll;
+  background-color: white;
+}
+
+#container {
+  height: 85vh;
+  display: grid;
+  grid-template-columns: auto 640px auto;
+  grid-template-rows: 10% 80% 10%;
+  grid-template-areas:
+    ". header ."
+    ". calc ."
+    ". footer .";
+}
+
+header {
+  grid-area: header;
+  display: grid;
+  grid-template-areas: "title";
+  height: 100%;
+  width: 100%;
+}
+
+header #title {
+  grid-area: title;
+  justify-self: center;
+}
+
+#calc {
+  height: 85%;
+  width: 75%;
+  grid-area: calc;
+  background-color: rgba(139, 149, 141, 0.84);
+  justify-self: center;
+
+}
+
+footer {
+  height: 100%;
+  width: 100%;
+  grid-area: footer;
+  display: grid;
+  grid-template-areas: "copyright";
+}
+
+footer .copyright {
+  grid-area: copyright;
+  justify-self: center;
+}
+
+#display-container {
+  border: solid 2px black;
+  padding: 30px;
+  background-color: rgb(98, 98, 98);
+}
+
+#number-display {
+  display: flex;
+  justify-content: flex-end;
+  font-size: 3rem;
+  background-color: green;
+  border: solid 1px yellow;
+}
+
+#number-btns {
+
+}
+
+button {
+  width: 100px;
+  height: 60px;
+  font-size: 1.5rem;
+}
+
+button#zero, button#clear-all{
+  width: 205px;
+}
