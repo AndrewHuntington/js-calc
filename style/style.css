@@ -1,3 +1,11 @@
+@font-face {
+    font-family: 'calculatorregular';
+    src: url('./fonts/calculator-webfont.woff2') format('woff2'),
+         url('./fonts/calculator-webfont.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
+
 body {
   overflow-x: scroll;
   overflow-y: scroll;
@@ -29,12 +37,14 @@ header #title {
 }
 
 #calc {
-  height: 95%;
+  border-radius: 5px 5px 35px 5px;
+  height: 93%;
   width: 75%;
   grid-area: calc;
-  background-color: rgba(139, 149, 141, 0.84);
+  background-color: rgba(214, 214, 214, 0.84);
   justify-self: center;
   display: grid;
+  grid-template-rows: 25% 10% 65%;
   grid-template-areas:
     "display"
     "name"
@@ -55,27 +65,48 @@ footer .copyright {
 }
 
 #display-container {
+  border-radius: 5px 5px 35px 5px;
   grid-area: display;
+  display: grid;
+  grid-template-areas: "number-display";
+  justify-self: center;
   border: solid 2px black;
-  padding: 30px;
-  background-color: rgb(98, 98, 98);
+  width: 75%;
+  height: 55%;
+  padding: 5px 30px 20px 30px;
+  margin-top: 35px;
+  background-color: rgba(139, 149, 141, 0.84);
 }
 
 #number-display {
+  font-family: 'calculatorregular';
+  border-radius: 5px 5px 5px 5px;
+  height: 35%;
   display: flex;
   justify-content: flex-end;
+  padding: 10px;
+  margin: 15px 0px 35px 0px;
   font-size: 3rem;
   background-color: green;
   border: solid 1px yellow;
 }
 
 #name {
+  font-size: 1.2rem;
+  height: 30%;
+  padding-left: 35px;
+  margin-top: 0;
   grid-area: name;
+}
+
+.chunky{
+
 }
 
 #btns {
   grid-area: buttons;
   justify-self: center;
+  padding-top: 30px;
 }
 
 #btns .operator {
